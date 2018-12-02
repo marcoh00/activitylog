@@ -1,0 +1,31 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Timestamp</th>
+        <th scope="col">Hostname</th>
+        <th scope="col">LocalIp</th>
+        <th scope="col">RemoteIp</th>
+        <th scope="col">Color</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var logentry in @Model.LogEntries)
+    {
+        <tr style="background-color: #@logentry.Color !important">
+            <th scope="row">@logentry.Id</th>
+            <td>@logentry.Timestamp.ToString()</td>
+            <td>@logentry.Hostname</td>
+            <td>@logentry.LocalIp</td>
+            <td>@logentry.RemoteIp</td>
+            <td>@logentry.Color</td>
+        </tr>
+    }
+    </tbody>
+</table>

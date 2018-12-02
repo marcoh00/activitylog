@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:11-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_USER: activitylog
+      POSTGRES_PASSWORD: activitylog
+      POSTGRES_DB: bigdata
+  dbadm:
+    depends_on:
+      - db
+    image: dpage/pgadmin4:latest
+    volumes:
+      - dbadmdata:/var/lib/pgadmin
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "127.0.0.1:8000:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin
+      PGADMIN_DEFAULT_PASSWORD: Password1
+  activitylog:
+    depends_on:
+      - db
+    build: .
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "0.0.0.0:80:80"
+    environment:
+      DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
+
+volumes:
+  dbdata:
+  dbadmdata:
+
+networks:
+  dbnet:
+    driver: bridge
