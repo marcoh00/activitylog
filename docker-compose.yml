@@ -24,7 +24,7 @@ services:
       - dbnet
     restart: on-failure
     ports:
-      - "127.0.0.1:8000:80"
+      - "0.0.0.0:8000:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin
       PGADMIN_DEFAULT_PASSWORD: Password1
@@ -37,6 +37,28 @@ services:
     restart: on-failure
     ports:
       - "0.0.0.0:80:80"
+    environment:
+      DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
+  activitylog2:
+    depends_on:
+      - db
+    build: .
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "0.0.0.0:81:80"
+    environment:
+      DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
+  activitylog3:
+    depends_on:
+      - db
+    build: .
+    networks:
+      - dbnet
+    restart: on-failure
+    ports:
+      - "0.0.0.0:82:80"
     environment:
       DATABASE: Host=db;Database=bigdata;Username=activitylog;Password=activitylog
 
