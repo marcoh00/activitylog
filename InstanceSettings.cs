@@ -13,7 +13,7 @@ namespace activitylog
 
         public RandomColorInstanceSettings()
         {
-            Color = Guid.NewGuid().ToString().Substring(0, 6).ToUpper();
+            Color = Environment.GetEnvironmentVariable("COLOR") ?? Guid.NewGuid().ToString().Substring(0, 6).ToUpper();
         }
     }
 }
